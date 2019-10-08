@@ -17,27 +17,29 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public formBuilder: FormBuilder,
-    public service: TtsService) 
-    {
+    public service: TtsService) {
       this.myForm = this.createMyForm();     
     }
-    saveData(){
-      console.log(this.myForm.value);
-    }
+
+    //Crea el texto para ser enviado.
     private createMyForm(){
       return this.formBuilder.group({
         text: ['Hola. Mi nombre es Andrea, es un placer conocerte. Vivo en la ciudad de medellin. Me gusta hacer deporte y los tacos.', Validators.required]
         
       });
     }
+
+    //Descarga el audio desde el servidor por medio de la API.
     download(){
       var audio = new Audio("https://retoinnovati.herokuapp.com/audio"); 
       audio.play();
       }
+
+    //Envía el texto al servidor.
     start(){
       console.log(this.myForm.value);
       this.service.start(this.myForm.value)
-           .subscribe();         
+           .subscribe(err => console.log(err));         
     }
 
 }
